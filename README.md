@@ -27,7 +27,7 @@ Alternatively you can build a docker container with the provided Dockerfile
 
 ## Sample output
 ```
-# python3 ./ovh-pci-cost.py 
+$ python3 ./ovh-pci-cost.py 
 ovhcloud_publiccloud_usage,project_id=abcd,project_name=My_Project,category=hourlyUsage,reference=d2-2,region=SBG7 totalPrice=0.823 1682155111041499904
 ovhcloud_publiccloud_usage,project_id=abcd,project_name=My_Project,category=hourlyUsage,bucketName=s3-bucketname,region=GRA totalPrice=0.9 1682155111041499904
 ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=hourlyUsage,reference=b2-15,region=SBG5 totalPrice=66.048 1682155079677974016
