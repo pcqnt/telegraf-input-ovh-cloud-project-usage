@@ -1,0 +1,17 @@
+version: '3.2'
+services:
+  telegraf-ovhcloud:
+    image: telegraf-ovh
+    restart: always
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    environment:
+      - OVH_APP_KEY=aaa
+      - OVH_ENDPOINT=ovh-eu
+      - OVH_APP_SECRET=bbb
+      - OVH_CONSUMER_KEY=ccc
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
