@@ -21,7 +21,8 @@ Alternatively you can build a docker container with the provided Dockerfile
 [[inputs.exec]]
    commands = ["python3 /usr/src/app/ovh-pci-cost.py"]
    data_format = "influx"
-   interval = "7200s"
+   interval = "2h"
+   timeout = "300s"
 
 ```
 
