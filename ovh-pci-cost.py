@@ -31,10 +31,14 @@ def get_client(endpoint, app_key, app_sec, cons_key):
     ) 
   return client_ovh
 
+def finish_line(value_name, value, last_update):
+  line=' {}={} {:.0f}'.format(value_name, value,last_update)
+  return line
+
 def format_usage(project, project_name, current_usage):
   result=[]
   measurement_name_cost='ovhcloud_publiccloud_usage'
-  begin_line='{} project_id={},project_name={}'.format(measurement_name_cost,project,project_name)
+  begin_line='{},project_id={},project_name={}'.format(measurement_name_cost,project,project_name)
 
   # influxdb expects nanosecond epoch time
   last_update=dateutil.parser.parse(current_usage['lastUpdate']).timestamp()*1000*1000*1000
@@ -57,31 +61,29 @@ def format_usage(project, project_name, current_usage):
   }
 
   for schema_key, schema_value in schema.items():
-    a=current_usage[schema_key]
-    if a is None:
+    one_category_of_usage=current_usage[schema_key]
+    if one_category_of_usage is None:
       pass
     elif type(schema_value) is dict:
       for schema_subkey, schema_subvalue in schema_value.items():
-        b=a[schema_subkey]
-        for c in b:
+        for c in one_category_of_usage[schema_subkey]:
           point=begin_line+',category={}'.format(schema_key)
           for one_value in schema_subvalue['field']:
             for tag in schema_subvalue['tags']:
               if c[tag]!="":
                 point+=',{}={}'.format(tag, c[tag])
             if one_value in c:
-              point+=' {}={}'.format(one_value, c[one_value])
-              point+=' {:.0f}'.format(last_update)
+              point+=finish_line(one_value,c[one_value],last_update)
               result.append(point)
+          #TODO : get details here 
     elif type(schema_value) is list:
-        for ressource in a:
+        for ressource in one_category_of_usage:
           point=begin_line+',category={}'.format(schema_key)
           for one_value in schema_value[0]['field']:
             for tag in schema_value[0]['tags']:
               point+=',{}={}'.format(tag, ressource[tag])
             if one_value in ressource:
-              point+=' {}={}'.format(one_value, ressource[one_value])
-              point+=' {:.0f}'.format(last_update)
+              point+=finish_line(one_value,ressource[one_value],last_update)
               result.append(point)
   return result
 
