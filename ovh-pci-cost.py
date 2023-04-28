@@ -67,7 +67,7 @@ def format_usage(project, project_name, current_usage):
     elif type(schema_value) is dict:
       for schema_subkey, schema_subvalue in schema_value.items():
         for c in one_category_of_usage[schema_subkey]:
-          point=begin_line+',category={}'.format(schema_key)
+          point=begin_line+',category={},subcategory={}'.format(schema_key,schema_subkey)
           for one_value in schema_subvalue['field']:
             for tag in schema_subvalue['tags']:
               if c[tag]!="":
