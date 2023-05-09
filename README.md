@@ -29,15 +29,16 @@ Alternatively you can build a docker container with the provided Dockerfile
 ## Sample output
 ```
 $ python3 ./ovh-pci-cost.py 
-ovhcloud_publiccloud_usage,project_id=abcd,project_name=My_Project,category=hourlyUsage,reference=d2-2,region=SBG7 totalPrice=0.823 1682155111041499904
-ovhcloud_publiccloud_usage,project_id=abcd,project_name=My_Project,category=hourlyUsage,bucketName=s3-bucketname,region=GRA totalPrice=0.9 1682155111041499904
-ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=hourlyUsage,reference=b2-15,region=SBG5 totalPrice=66.048 1682155079677974016
-ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=hourlyUsage,reference=b2-7,region=SBG5 totalPrice=34.867 1682155079677974016
-ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=hourlyUsage,region=BHS3 totalPrice=0.321 1682155079677974016
-ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=hourlyUsage,region=SBG5 totalPrice=0.75 1682155079677974016
-ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=hourlyUsage,region=GRA totalPrice=0 1682155079677974016
-ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=resourcesUsage,type=gateway totalPrice=1.439 1682154979129154048
-ovhcloud_publiccloud_usage,project_id=defg,project_name=My_Project_2,category=monthlyUsage,reference=win-b2-15,region=SBG5 totalPrice=86.2 1682154665347398912
+ovhcloud_publiccloud_usage,project_id=abc,project_name=My_Project,category=hourlyUsage,subcategory=storage,bucketName=highperf-s3,region=SBG totalPrice=0 1683641700855802112
+ovhcloud_publiccloud_usage,project_id=abc,project_name=My_Project,category=hourlyUsage,subcategory=storage,bucketName=s3-standard-gra,region=GRA totalPrice=0 1683641700855802112
+ovhcloud_publiccloud_usage,project_id=abc,project_name=My_Project,category=hourlyUsage,subcategory=storage,bucketName=s3-standard-gra-logs,region=GRA totalPrice=0 1683641700855802112
+ovhcloud_publiccloud_usage,project_id=abc,project_name=My_Project,category=hourlyUsage,subcategory=storage,bucketName=s3-locked,region=GRA totalPrice=0 1683641700855802112
+ovhcloud_publiccloud_usage,project_id=abc,project_name=My_Project,category=hourlyUsage,subcategory=storage,bucketName=s3-objectlock,region=GRA totalPrice=0 1683641700855802112
+ovhcloud_publiccloud_usage,project_id=abc,project_name=My_Project,category=hourlyUsage,subcategory=storage,bucketName=s3-s3fs-rbx,region=RBX totalPrice=0 1683641700855802112
+ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category=hourlyUsage,subcategory=instance,reference=b2-15,region=SBG5 totalPrice=26.574 1683645236635727104
+ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category=hourlyUsage,subcategory=instance,reference=b2-7,region=SBG5 totalPrice=14.029 1683645236635727104
+ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category=hourlyUsage,subcategory=snapshot,region=BHS3 totalPrice=0.129 1683645236635727104
+ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category=hourlyUsage,subcategory=snapshot,region=GRA5 totalPrice=0.306 1683645236635727104
 
 
 ```
