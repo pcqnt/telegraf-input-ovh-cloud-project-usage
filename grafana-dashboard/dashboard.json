@@ -1,0 +1,574 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 20,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xsNGx-04z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xsNGx-04z"
+          },
+          "query": "from(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n  //|> aggregateWindow(every: 1h, fn: sum, createEmpty: false)\n  //|> aggregateWindow(every: 2h, fn: mean, createEmpty: true)\n  |> fill(usePrevious: true)\n  |> fill(value: 0.0)\n  |> group(columns: [\"project_name\"])\n  |> keep(columns: [\"project_name\", \"_time\", \"_value\"])\n  |> aggregateWindow(every: 1h, fn: sum, createEmpty: false)\n  |> yield(name: \"price\")\n \n \n // |> truncateTimeColumn(unit: 30s)\n // |> aggregateWindow(every: 3600s, fn: sum, createEmpty: true)\n // \n // |> pivot(rowKey: [\"_time\"], columnKey: [\"project_name\"], valueColumn: \"_value\")\n\n\n//from(bucket: \"pcicost\")\n//  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n//  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n//  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n//  |> truncateTimeColumn(unit: 1h)\n//  |> aggregateWindow(every: 1h, fn: last, createEmpty: true)\n//  |> pivot(rowKey: [\"_time\"], columnKey: [\"project_name\"], valueColumn: \"_value\")\n   //|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n   // |> group(columns: [\"_time\"])\n  //|> group(columns:[\"_time\"], mode:\"except\")\n //|> group(columns: [\"_value\"])\n //|> sum()\n   //|> group(columns: [\"_time\"])\n     //|> drop(columns: [\"_start\", \"_field\", \"_stop\", \"category\", \"host\", \"project_id\", \"region\", \"subcategory\", \"type\", \"reference\"])\n  //|> sum(column: \"_value\")\n  //|> group()",
+          "refId": "A"
+        }
+      ],
+      "title": "Total cost of all projects ",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xsNGx-04z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 5,
+        "x": 16,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "displayLabels": [
+          "name"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xsNGx-04z"
+          },
+          "query": "\nfrom(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n  |> group(columns: [\"project_name\"])\n  |> aggregateWindow(every: 1h, fn: sum, createEmpty: false)\n  |> yield(name: \"price\")\n \n  //|> aggregateWindow(every: 1m, fn: last, createEmpty: false)\n  //|> aggregateWindow(every: 1m, fn: mean, createEmpty: true)\n  //|> fill(usePrevious: true)\n  //|> fill(value: 0.0)",
+          "refId": "A"
+        }
+      ],
+      "title": "Share of project",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xsNGx-04z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 5,
+        "x": 0,
+        "y": 14
+      },
+      "id": 6,
+      "options": {
+        "displayLabels": [
+          "name"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "percent"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xsNGx-04z"
+          },
+          "query": "\nfrom(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n  |> keep(columns:[\"category\", \"_value\", \"_time\"])\n  |> group(columns:[\"category\"], mode: \"by\")\n  |> rename(columns: {_value: \"\"})\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Category",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xsNGx-04z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 6,
+        "x": 5,
+        "y": 14
+      },
+      "id": 10,
+      "options": {
+        "displayLabels": [
+          "name"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xsNGx-04z"
+          },
+          "query": "\nfrom(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n  |> filter(fn: (r) => r[\"bucketName\"] != \"\")\n  |> group(columns:[\"bucketName\"], mode: \"by\")\n  |> keep(columns:[\"bucketName\", \"_value\", \"_time\"])\n  |> rename(columns: {_value: \"\"})\n",
+          "refId": "A"
+        }
+      ],
+      "title": "S3 Bucket Usage in €",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xsNGx-04z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 5,
+        "x": 11,
+        "y": 14
+      },
+      "id": 8,
+      "options": {
+        "displayLabels": [
+          "name"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xsNGx-04z"
+          },
+          "query": "\nfrom(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n  |> filter(fn: (r) => r[\"region\"] != \"\")\n  |> group(columns:[\"region\"], mode: \"by\")\n  |> keep(columns:[\"region\", \"_value\", \"_time\"])\n  |> rename(columns: {_value: \"\"})\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Region",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xsNGx-04z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 5,
+        "x": 16,
+        "y": 14
+      },
+      "id": 9,
+      "options": {
+        "displayLabels": [
+          "name"
+        ],
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.4.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xsNGx-04z"
+          },
+          "query": "\nfrom(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n  |> filter(fn: (r) => r[\"reference\"] != \"\")\n  |> group(columns:[\"reference\"], mode: \"by\")\n  |> keep(columns:[\"reference\", \"_value\", \"_time\"])\n  |> rename(columns: {_value: \"\"})\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Type of Instances",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "xsNGx-04z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 5,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 2,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "_time"
+          }
+        ]
+      },
+      "pluginVersion": "9.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "xsNGx-04z"
+          },
+          "query": "from(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalPrice\")\n  |> filter(fn: (r) => r[\"project_name\"] == \"${project}\")\n  |> group()\n  |> yield(name: \"_results\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Data for project ${project}",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "ABU-LAB",
+          "value": "ABU-LAB"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "xsNGx-04z"
+        },
+        "definition": "from(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> group(columns: [\"project_name\"])\n|> distinct(column: \"project_name\")\n|> keep(columns: [\"_value\"])\n",
+        "description": "Project to look at",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "project",
+        "options": [],
+        "query": "from(bucket: \"pcicost\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ovhcloud_publiccloud_usage\")\n  |> group(columns: [\"project_name\"])\n|> distinct(column: \"project_name\")\n|> keep(columns: [\"_value\"])\n",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-2d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "OVHcloud Public Cloud Cost",
+  "uid": "LpoYXfEVz",
+  "version": 52,
+  "weekStart": ""
+}
