@@ -40,6 +40,17 @@ ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category
 ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category=hourlyUsage,subcategory=instance,reference=b2-7,region=SBG5 totalPrice=14.029 1683645236635727104
 ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category=hourlyUsage,subcategory=snapshot,region=BHS3 totalPrice=0.129 1683645236635727104
 ovhcloud_publiccloud_usage,project_id=def,project_name=My_Other_Project,category=hourlyUsage,subcategory=snapshot,region=GRA5 totalPrice=0.306 1683645236635727104
+```
 
+## Dashboard
+A sample Grafana dashboard is present in the grafana-dashboard folder. It will query an Influxdbv2 database for results and graph them as below (with a dropdown menu of all available Openstack projects in your OVHcloud account) :  
+![alt screencapture](https://raw.githubusercontent.com/pcqnt/telegraf-input-ovh-cloud-project-usage/main/grafana-dashboard/screen_catpure_grafana_pci.png)
 
+Influxdbv2 output configuration in telegraf : 
+```
+[[outputs.influxdb_v2]]
+   urls = ["http://influxdb:8086"]
+   token = "redacted"
+   organization = "ovh"
+   bucket = "ovhpcicost"
 ```
