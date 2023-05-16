@@ -52,5 +52,5 @@ Influxdbv2 output configuration in telegraf :
    urls = ["http://influxdb:8086"]
    token = "redacted"
    organization = "ovh"
-   bucket = "ovhpcicost"
+   bucket = "pcicost"
 ```
