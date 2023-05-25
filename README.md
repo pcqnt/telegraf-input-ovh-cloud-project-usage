@@ -2,7 +2,7 @@
 Python script to parse the output of [OVHcloud Public Cloud Project Usage](https://api.ovh.com/console/#/cloud/project/%7BserviceName%7D/usage/current~GET) into the [InfluxDB line protocol](https://docs.influxdata.com/influxdb/latest/reference/syntax/line-protocol/). Intended to be run via Telegraf's [exec](https://github.com/influxdata/telegraf/tree/master/plugins/inputs/exec) input plugin.
 
 ## Requirements
-OVHcloud Python module (pip install ovh)
+OVHcloud Python module (pip install ovh) and python-dateutil.
 
 ## Install
 Configure Telegraf as shown below. Make sure to have the following environnement variables set:
