@@ -6,9 +6,12 @@ import datetime
 import dateutil.parser
 import os
 
-def get_usage(client_ovh, project_id): 
-  result=client_ovh.get('/cloud/project/'+project_id+'/usage/current')
-  return result
+def get_usage(client_ovh, project_id):
+  try:
+    result=client_ovh.get('/cloud/project/'+project_id+'/usage/current')
+    return result
+  except:
+    return False
 
 def get_list_of_projects(client_ovh):
   result = client_ovh.get('/cloud/project')
@@ -28,7 +31,7 @@ def get_client(endpoint, app_key, app_sec, cons_key):
         application_key=app_key,    # Application Key
         application_secret=app_sec, # Application Secret
         consumer_key=cons_key,       # Consumer Key
-    ) 
+    )
   return client_ovh
 
 def finish_line(value_name, value, last_update):
@@ -70,12 +73,13 @@ def format_usage(project, project_name, current_usage):
           point=begin_line+',category={},subcategory={}'.format(schema_key,schema_subkey)
           for one_value in schema_subvalue['field']:
             for tag in schema_subvalue['tags']:
-              if c[tag]!="":
-                point+=',{}={}'.format(tag, c[tag])
+              if tag in c:
+                if c[tag]!="":
+                  point+=',{}={}'.format(tag, c[tag])
             if one_value in c:
               point+=finish_line(one_value,c[one_value],last_update)
               result.append(point)
-          #TODO : get details here 
+          #TODO : get details here
     elif type(schema_value) is list:
         for ressource in one_category_of_usage:
           point=begin_line+',category={}'.format(schema_key)
@@ -95,16 +99,17 @@ def main():
 
   client_ovh=get_client(endpoint, application_key, application_secret, consumer_key)
   projects=get_list_of_projects(client_ovh)
-  
+
   for project in projects:
     project_description=get_description_of_project(client_ovh, project)
     if project_description is None:
       pass
     else:
       usage=get_usage(client_ovh, project)
-      result=format_usage(project,project_description, usage)
-      for i in result:
-        print(i)
+      if usage:
+        result=format_usage(project,project_description, usage)
+        for i in result:
+          print(i)
 
 if __name__ == '__main__':
   main()
