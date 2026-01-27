@@ -1,0 +1,14 @@
+services:
+  telegraf-ovhcloud:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ovh-pci-telegraf
+    restart: always
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    environment:
+      - OVH_APP_KEY=xxx
+      - OVH_ENDPOINT=ovh-eu
+      - OVH_APP_SECRET=yyy
+      - OVH_CONSUMER_KEY=zzz
